@@ -27,7 +27,7 @@
 				<section>
 					<section data-markdown>
 						<script type="text/template">
-							## Contextually Good Components
+							## Contextually Good Times
 
 							A brief exploration of Ember's Contextual Components
 						</script>
@@ -130,6 +130,11 @@
 				<section>
 					<section data-markdown>
 						<script type="text/template">
+							## Motivation
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
 							> This new feature is a powerful tool for addon authors, allowing them to yield components without having arguments to those components become de-facto public API.
 							-- [_Ember 2.3 Release_](http://emberjs.com/blog/2016/01/15/ember-2-3-released.html#toc_contextual-components)
 						</script>
@@ -138,6 +143,28 @@
 						<script type="text/template">
 							> Before this enhancement developers had to break component encapsulation in situations where several components were to be connected into a complex UI.
 							-- [_Contextual Components in Ember_](https://kevink.me/2016/01/19/contextual-components-in-ember/)
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							```hbs
+							{{!-- traditional blocked components --}}
+							{{#some-form data=model}}
+								{{some-field data=model.name}}
+							{{/some-form}}
+							```
+
+							```hbs
+							// app/templates/components/some-form.hbs
+							{{yield (hash
+								field=(component 'some-field' data=data.name)
+							)}}
+							```
+							```hbs
+							{{#some-form data=model as |form|}}
+								{{form.field}}
+							{{/some-form}}
+							```
 						</script>
 					</section>
 					<section data-markdown>
