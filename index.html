@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+		<title>Contextually Good Times</title>
 
 		<link rel="stylesheet" href="css/reveal.css">
 		<link rel="stylesheet" href="css/theme/black.css">
@@ -24,8 +24,158 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+				<section>
+					<section data-markdown>
+						<script type="text/template">
+							## Contextually Good Components
+
+							A brief exploration of Ember's Contextual Components
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							## Who Am I?
+							Tyler Wendlandt
+
+							- [@tylerwen on twitter](http://www.twitter.com/tylerwen)
+							- [wenincode on github](http://www.github.com/wenincode)
+							- [wenincode.com](http://www.wenincode.com)
+						</script>
+					</section>
+				</section>
+
+				<section>
+					<section data-markdown>
+						<script type="text/template">
+							## The hash helper
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							> The hash helper creates an object from arguments passed to it during invocation, and then returns that object.
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							```hbs
+							{{#with (hash name='Bob') as |person|}}
+							  Hello, my name is {{person.name}}
+							{{/with}}
+							```
+						</script>
+					</section>
+				</section>
+				<section>
+					<section data-markdown>
+						<script type="text/template">
+							## the component helper
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							`{{component}}` helper lets you add instances of an `Ember.Component` to a template.
+							The main use-case being that you can dynamically render components.
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							```js
+							// app/controllers/application.js
+
+							...
+							componentName: Ember.computed('names', 'index', funtion() {
+								...
+								return names.objectAt(index);
+							}),
+							...
+							```
+							```hbs
+							{{!-- app/templates/application.hbs --}}
+							{{component componentName}}
+							```
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							Contextual Components leverage the [Nested Usage]() which packages
+							the component path with the initial attributes. The initial attributes
+							are merged with any attributes included in the invocation.
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							```hbs
+							{{! app/templates/components/alert-box.hbs }}
+							<div class="alert-box">
+							{{yield (hash
+								close-button=(component 'alert-box-button' onclick=(action 'close'))
+							)}}
+							</div>
+							```
+
+							```hbs
+							{{! app/templates/index.hbs }}
+							{{#alert-box as |box|}}
+							  Danger, Will Robinson!
+							  <div style="float:right">
+							    {{#box.close-button}}
+							      It's just a plain old meteorite.
+							    {{/box.close-button}}
+							  </div>
+							{{/alert-box}}
+							```
+						</script>
+					</section>
+				</section>
+				<section>
+					<section data-markdown>
+						<script type="text/template">
+							> This new feature is a powerful tool for addon authors, allowing them to yield components without having arguments to those components become de-facto public API.
+							-- [_Ember 2.3 Release_](http://emberjs.com/blog/2016/01/15/ember-2-3-released.html#toc_contextual-components)
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							> Before this enhancement developers had to break component encapsulation in situations where several components were to be connected into a complex UI.
+							-- [_Contextual Components in Ember_](https://kevink.me/2016/01/19/contextual-components-in-ember/)
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							Lauren Tan demonstrates how to leverage contextual components for depency injection and simpler tests on the [emberway.io](https://emberway.io/component-dependency-injection-in-ember-js-a46a39a5d30a)
+						</script>
+					</section>
+				</section>
+				<section data-markdown>
+					<script type="text/template">
+						[A Fun Little Twiddle](https://ember-twiddle.com/2fe6bec5f1d6925e13a74e1f515cbe44?openFiles=templates.application.hbs%2C)
+					</script>
+				</section>
+				<section data-markdown>
+					<script type="text/template">
+						Examples of Addons that leverage contextual components
+						- [ember-carousel](https://github.com/selvagsz/ember-carousel/blob/master/tests/dummy/app/templates/application.hbs)
+						- [ember-leaflet](http://www.ember-leaflet.com/docs/contextual-components)
+					</script>
+				</section>
+				<section>
+					<section data-markdown>
+						<script type="text/template">
+							## References
+						</script>
+					</section>
+					<section data-markdown>
+						<script type="text/template">
+							- [Ember 2.3 Release](http://emberjs.com/blog/2016/01/15/ember-2-3-released.html#toc_contextual-components)
+							- [Hash Template Helper](http://emberjs.com/api/classes/Ember.Templates.helpers.html#method_hash)
+							- [Component Template Helper](http://emberjs.com/api/classes/Ember.Templates.helpers.html#method_component)
+							- [[Blog] Component Dependency Injection in Ember.js](https://emberway.io/component-dependency-injection-in-ember-js-a46a39a5d30a#.iu8lmc6vu)
+							- [[Blog] Contextual Components in Ember](https://kevink.me/2016/01/19/contextual-components-in-ember/)
+							- [ember-leaflet](http://www.ember-leaflet.com/docs/contextual-components)
+							- [ember-carousel](https://github.com/selvagsz/ember-carousel)
+						</script>
+					</section>
+				</section>
 			</div>
 		</div>
 
